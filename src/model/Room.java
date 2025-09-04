@@ -6,6 +6,14 @@ public class Room implements IRoom{
     public Double price;
     public RoomType roomType;
 
+    public Room(String roomNumber, double roomPrice, RoomType roomType) {
+
+    }
+
+    public Room() {
+
+    }
+
     @Override
     public int hashCode() {
         return super.hashCode();

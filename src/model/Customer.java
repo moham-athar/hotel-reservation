@@ -2,33 +2,22 @@ package model;
 
 import java.util.regex.Pattern;
 
-public class Customer {
-    private final String firstName;
-    private final String lastName;
-    private final String email;
 
-    public Customer(String firstName, String email, String lastName) {
-        String emailRegex = "^(.+)@(.+).(.+)$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        if (!pattern.matcher(email).matches()) {
-            throw new IllegalArgumentException("Error, Invalid email");
-        }
+public record Customer(String firstName, String lastName, String email) {
+    public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
+        if (isValidEmail(email)) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Invalid email: " + email);
+        }
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-
-    public String getLastName() {
-        return lastName;
+    private boolean isValidEmail(String email) {
+        final Pattern EMAIL_PATTERN =
+                Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 
     @Override
